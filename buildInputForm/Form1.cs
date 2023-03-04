@@ -16,6 +16,11 @@ namespace buildInputForm
         {
             InitializeComponent();
         }
+        
+        //a list
+        public List<string> list = new List<string>();
+
+
         //declare
         public InputFormsBuilder ifb;
 
@@ -28,10 +33,32 @@ namespace buildInputForm
         {
             //trebuie sa preia data din datetimepicker not datetime.now
             //25 inseamna controlul i-25 unde i este numarul tuturor controlelor din lista ifb
-            ifb.listControls[i - 25].Text = DateTime.Now.ToString();
+            ifb.listControls[i - 27].Text = DateTime.Now.ToString();
 
         }
-       
+
+        
+        private void saveDatas(object sender, EventArgs e)
+        {
+           
+            for(int k = 0; k < ifb.listControls.Count; k++)
+            {
+
+                list.Add(ifb.listControls[k].Text);
+                printDatasToDebugWindow();
+                this.Refresh();
+            }
+
+        }
+        public void printDatasToDebugWindow() 
+        {
+            for (int j = 0; j < list.Count; j++)
+            {
+
+                this.textBox1.Text += "\r\n" + list[j].ToString() + "\r\n";
+            }
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -317,6 +344,21 @@ namespace buildInputForm
 
 
 
+//form submit
+            //add a label
+            ifb.addControl(new Label());
+            i++;
+            ifb.listControls[i - 1].Text = "save datas:";
+            ifb.listControls[i - 1].Left = 100;
+            ifb.listControls[i - 1].Top = 320;
+
+            //add a button
+            ifb.addControl(new Button());
+            i++;
+            ifb.listControls[i - 1].Text = "Save";
+            ifb.listControls[i - 1].Left = 200;
+            ifb.listControls[i - 1].Top = 320;
+            ifb.listControls[i - 1].Click += new System.EventHandler(this.saveDatas);
 
             //show controls
             ifb.showControls();
